@@ -27,12 +27,12 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignUn() {
 
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container component="main" sx={{ height: '100vh',}}>
                 <CssBaseline />
 
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -45,10 +45,10 @@ export default function SignIn() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        </Avatar>
-                        <Typography component="h1" variant="h5" style={{ fontSize: '36px', color: '#00C2FF', width: '60%', textAlign: 'center' }} >
-                            Bem-vindo Faça seu Login
+                        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        </Avatar> */}
+                        <Typography component="h1" variant="h5" style={{ fontSize: '36px', color: '#00C2FF', width: '60%', textAlign: 'center', paddingTop : '200px' }} >
+                            Faça seu Cadastro
                         </Typography>
                         {/* //forms */}
                         <Box component="form" noValidate sx={{ mt: 1 }}>
@@ -86,7 +86,7 @@ export default function SignIn() {
                                     },
                                 }}
                             />
-                            <Link to="/" style={{ textDecoration: 'none' }}>
+                            <Link to="/sign-in" style={{ textDecoration: 'none' }}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -101,19 +101,13 @@ export default function SignIn() {
                                         },
                                     }}
                                 >
-                                    Entrar
+                                    Cadastrar
                                 </Button>
                             </Link>
-
                             <Grid container>
-                                <Grid item xs>
-                                    <Link to='/'>
-                                        Esqueceu sua senha?
-                                    </Link>
-                                </Grid>
                                 <Grid item>
-                                    <Link to='/sign-up'>
-                                        {"Don't have an account? Sign Up"}
+                                    <Link to='/sign-in'>
+                                        {"Voce já possui uma conta ? Login"}
                                     </Link>
                                 </Grid>
                             </Grid>
