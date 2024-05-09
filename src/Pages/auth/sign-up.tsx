@@ -51,7 +51,7 @@ export default function SignUp() {
                             Faça seu Cadastro
                         </Typography>
                         {/* //forms */}
-                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '8px' }}>
+                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '60px' }}>
                             {/* //inputs */}
                             <TextField
                                 margin="normal"

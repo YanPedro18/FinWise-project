@@ -45,13 +45,13 @@ export default function SignIn() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main',  marginTop: '100px'  }}>
                         </Avatar>
                         <Typography component="h1" variant="h5" style={{ fontSize: '36px', color: '#00C2FF', width: '60%', textAlign: 'center' }} >
                             Bem-vindo Faça seu Login
                         </Typography>
                         {/* //forms */}
-                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '8px' }}>
+                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '60px' }}>
                             {/* //inputs */}
                             <TextField
                                 margin="normal"
