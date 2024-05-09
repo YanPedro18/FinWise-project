@@ -7,12 +7,12 @@ import SignUp from "./Pages/auth/sign-up"
 
 function Router() {
   return (
-        <Routes>
-            <Route path="/" element={<Mounth />} > </Route>
-            <Route path="/Dashboard" element={<DashboardHome />} > </Route>
-            <Route path="/sign-in" element={<SignIn />} > </Route>
-            <Route path="/sign-up" element={<SignUp />} > </Route>
-        </Routes>
+    <Routes>
+      <Route path="/Mounth" element={<Mounth />} > </Route>
+      <Route path="/Dashboard" element={<DashboardHome />} > </Route>
+      <Route path="/sign-in" element={<SignIn />} > </Route>
+      <Route path="/sign-up" element={<SignUp />} > </Route>
+    </Routes>
   )
 }
 

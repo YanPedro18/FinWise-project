@@ -27,14 +27,14 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignUn() {
+export default function SignUp() {
 
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh',}}>
-                <CssBaseline />
 
+            <Grid container component="main" sx={{ height: '100vh' }}>
+                <CssBaseline /> 
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box
                         sx={{
@@ -51,7 +51,7 @@ export default function SignUn() {
                             Faça seu Cadastro
                         </Typography>
                         {/* //forms */}
-                        <Box component="form" noValidate sx={{ mt: 1 }}>
+                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '8px' }}>
                             {/* //inputs */}
                             <TextField
                                 margin="normal"
