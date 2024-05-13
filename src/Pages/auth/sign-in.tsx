@@ -16,7 +16,7 @@ function Copyright(props: any) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" to='/'>
-                Your Website
+                FinWise
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -32,26 +32,42 @@ export default function SignIn() {
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container component="main" sx={{ height: '100vh', overflowY: "hidden" }}>
                 <CssBaseline />
 
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={8} md={6} sx={{ height: '100%', }} component={Paper} elevation={6} square>
                     <Box
                         sx={{
-                            my: 8,
+                            my: 3,
                             mx: 8,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main',  marginTop: '100px'  }}>
+                        <Avatar sx={{ bgcolor: 'secondary.main', marginTop: '10px' }}>
                         </Avatar>
-                        <Typography component="h1" variant="h5" style={{ fontSize: '36px', color: '#00C2FF', width: '40%', textAlign: 'center' }} >
+                        <Typography
+                            component="h1"
+                            variant="h3"
+                            sx={{
+                                marginBottom: 3,
+                                color: '#00C2FF',
+                                width: '55%',
+                                textAlign: 'center',
+                                fontSize: {
+                                    xs: '1.5rem', // Tamanho do título para telas extra pequenas (xs)
+                                    sm: '1.8rem', // Tamanho do título para telas pequenas (sm)
+                                    md: '1.8rem',   // Tamanho do título para telas médias (md)
+                                    lg: '2.2rem', // Tamanho do título para telas grandes (lg)
+                                    xl: '3rem',   // Tamanho do título para telas extra grandes (xl)
+                                },
+                            }}
+                        >
                             Bem-vindo, Faça seu Login
                         </Typography>
                         {/* //forms */}
-                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '60px' }}>
+                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '30px', height: '385px', }}>
                             {/* //inputs */}
                             <TextField
                                 margin="normal"
@@ -106,14 +122,14 @@ export default function SignIn() {
                             </Link>
 
                             <Grid container>
-                                <Grid item xs>
+                                <Grid item xs >
                                     <Link to='/'>
                                         Esqueceu sua senha?
                                     </Link>
                                 </Grid>
                                 <Grid item>
                                     <Link to='/sign-up'>
-                                        {"Don't have an account? Sign Up"}
+                                        {"Você não tem uma conta? Sign Up"}
                                     </Link>
                                 </Grid>
                             </Grid>
@@ -126,14 +142,15 @@ export default function SignIn() {
                     item
                     xs={false}
                     sm={4}
-                    md={7}
+                    md={6}
                     sx={{
+
                         backgroundImage: `url(${imgLogin})`,
 
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? '#00C2FF' : t.palette.grey[900],
-                        backgroundSize: '80%',
+                        backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
                 />

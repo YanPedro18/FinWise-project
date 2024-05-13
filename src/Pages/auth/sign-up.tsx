@@ -1,5 +1,5 @@
 
-import Avatar from '@mui/material/Avatar';
+
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -33,9 +33,9 @@ export default function SignUp() {
     return (
         <ThemeProvider theme={defaultTheme}>
 
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline /> 
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Grid container component="main" sx={{ height: '100vh', overflowY: "hidden" }}>
+                <CssBaseline />
+                <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
                     <Box
                         sx={{
                             my: 8,
@@ -47,11 +47,25 @@ export default function SignUp() {
                     >
                         {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         </Avatar> */}
-                        <Typography component="h1" variant="h5" style={{ fontSize: '36px', color: '#00C2FF', width: '60%', textAlign: 'center', paddingTop : '200px' }} >
+                        <Typography component="h1"
+                            variant="h4"
+                            sx={{
+                                marginBottom: 3,
+                                color: '#00C2FF',
+                                width: '55%',
+                                textAlign: 'center',
+                                fontSize: {
+                                    xs: '1.5rem', // Tamanho do título para telas extra pequenas (xs)
+                                    sm: '1.8rem', // Tamanho do título para telas pequenas (sm)
+                                    md: '1.8rem',   // Tamanho do título para telas médias (md)
+                                    lg: '2.2rem', // Tamanho do título para telas grandes (lg)
+                                    xl: '3rem',   // Tamanho do título para telas extra grandes (xl)
+                                },
+                            }} >
                             Faça seu Cadastro
                         </Typography>
                         {/* //forms */}
-                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '60px' }}>
+                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '30px', height: '385px', }}>
                             {/* //inputs */}
                             <TextField
                                 margin="normal"
@@ -120,14 +134,14 @@ export default function SignUp() {
                     item
                     xs={false}
                     sm={4}
-                    md={7}
+                    md={6}
                     sx={{
                         backgroundImage: `url(${imgLogin})`,
 
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? '#00C2FF' : t.palette.grey[900],
-                        backgroundSize: '80%',
+                        backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
                 />
