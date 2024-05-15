@@ -1,86 +1,56 @@
-
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Ícone de usuário
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import React from 'react';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        teste
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+interface HeaderProps {
+  sections: ReadonlyArray<{
+    title: string;
+    url: string;
+  }>;
+  title: string;
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+export default function Mounth(props: HeaderProps) {
+  const { sections, title } = props;
 
-export default function Mounth() {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box
-        sx={{
-          backgroundColor: '#FFFFFF', // Cor de fundo branco para o cabeçalho
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          py: 2,
-          px: 2,
-          color: '#000000', // Texto preto para o cabeçalho
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="body1" color="inherit">
-            Seu cabeçalho fixo aqui.
-          </Typography>
-        </Container>
-      </Box>
-      <Box
-        sx={{
-          backgroundColor: '#00C2FF',
-          paddingTop: '64px',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-        }}
-      >
-        <CssBaseline />
-        <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
-          <Typography variant="h2" component="h1" gutterBottom>
-            Sticky footer
-          </Typography>
-          <Typography variant="h5" component="h2" gutterBottom>
-            {'Pin a footer to the bottom of the viewport.'}
-            {'The footer will move as the main element of the page grows.'}
-          </Typography>
-        </Container>
-        <Box
-          component="footer"
-          sx={{
+    <React.Fragment>
+      <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
 
-            py: 3,
-            px: 2,
-            mt: 'auto',
-            backgroundColor: '#00C2FF',
-          }}
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography component="h1" variant="h5" style={{ fontFamily: 'Open Sans", sans-serif', fontSize: '36px', color: '#00C2FF', width: '100%', fontWeight: 'bold', marginBottom: '-10px' }} noWrap>
+            FinWise
+          </Typography>
+          <Typography component="h1" variant="h5" style={{ fontFamily: 'Open Sans", sans-serif', fontSize: '18px', color: '#00C2FF', width: '100%', marginTop: '-2px', fontWeight: 'bold' }} noWrap>
+            financial
+          </Typography>
+        </div>
+
+
+
+        <Typography
+          component="h2"
+          variant="h5"
+          color="inherit"
+          align="center"
+          noWrap
+          sx={{ flex: 1 }}
         >
-          <Container maxWidth="sm">
-            <Typography >
-              My sticky footer can be found here.
-            </Typography>
-            <Copyright />
-          </Container>
-        </Box>
-      </Box>
-    </ThemeProvider>
+          {title}
+        </Typography>
+        <IconButton>
+          <AccountCircleIcon />
+          <span style={{ fontSize: '0.8rem' }}>test@gmail.com</span>
+        </IconButton>
+        <Button variant="outlined" size="small" style={{ background: '#00C2FF', fontFamily: 'Open Sans", sans-serif', fontSize: '16px', color: '#000000', marginTop: '-2px', fontWeight: 'bold' }}>
+          Sair
+        </Button>
+      </Toolbar>
+    </React.Fragment>
   );
 }
