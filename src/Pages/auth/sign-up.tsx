@@ -1,5 +1,3 @@
-
-
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -7,10 +5,19 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import imgLogin from '../../assets/Group25.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useForm } from 'react-hook-form';
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from 'react';
+import { Toaster, toast } from 'sonner'
 
+interface typePropsForms {
+    emailUser: string,
+    passwordUser: string
+}
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -24,11 +31,59 @@ function Copyright(props: any) {
     );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+    const navigate = useNavigate();
 
+    const firebaseConfig = {
+        apiKey: "AIzaSyDUWzwFLlOw2jWx82uoOCbjF6tBDyjZR_A",
+        authDomain: "finwise-project.firebaseapp.com",
+        projectId: "finwise-project",
+        storageBucket: "finwise-project.appspot.com",
+        messagingSenderId: "100008535435",
+        appId: "1:100008535435:web:f0e6ffef0c73fa4adbfb8e"
+      };
+
+    const app = initializeApp(firebaseConfig);
+
+    const [emailUser, setEmailUser] = useState("");
+    const [passwordUser, setPasswordUser] = useState("");
+
+    const {register, handleSubmit } = useForm({
+        defaultValues: {
+            emailUser: '',
+            passwordUser: ''
+        }
+    })
+    
+    function handleGetValuesInput(data: any) {
+     console.log(data)
+     setEmailUser(data.emailUser);
+     setPasswordUser(data.passwordUser)
+    }
+    
+    const auth = getAuth();
+
+    createUserWithEmailAndPassword(auth, emailUser, passwordUser)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log(user)
+        toast.success("Cadastro realizado com sucesso!")
+        setTimeout(() => {
+            // redireciona o usuario apos login success para a rota de login
+            navigate('/sign-in');
+        }, 3000);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage)
+   
+      });
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -65,7 +120,7 @@ export default function SignUp() {
                             Faça seu Cadastro
                         </Typography>
                         {/* //forms */}
-                        <Box component="form" noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '30px', height: '385px', }}>
+                        <Box component="form" onSubmit={handleSubmit(handleGetValuesInput)} noValidate sx={{ mt: 1, boxShadow: ' #c1c1c1 1px 1px 3px 1px', padding: '30px', height: '385px', }}>
                             {/* //inputs */}
                             <TextField
                                 margin="normal"
@@ -74,7 +129,7 @@ export default function SignUp() {
                                 id="email"
                                 label="E-mail"
                                 placeholder='Digite seu e-mail.'
-                                name="email"
+                                {...register("emailUser")}
                                 autoComplete="email"
                                 autoFocus
                                 sx={{
@@ -88,7 +143,7 @@ export default function SignUp() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                name="password"
+                                {...register("passwordUser")}
                                 label="Senha"
                                 placeholder='Digite sua senha.'
                                 type="password"
@@ -100,7 +155,8 @@ export default function SignUp() {
                                     },
                                 }}
                             />
-                            <Link to="/sign-in" style={{ textDecoration: 'none' }}>
+                            {/* <Link to="/sign-in" style={{ textDecoration: 'none' }}> */}
+                                <Toaster richColors />
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -117,7 +173,7 @@ export default function SignUp() {
                                 >
                                     Cadastrar
                                 </Button>
-                            </Link>
+                            {/* </Link> */}
                             <Grid container>
                                 <Grid item>
                                     <Link to='/sign-in'>
