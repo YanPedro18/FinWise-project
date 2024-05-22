@@ -4,7 +4,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Ícone de 
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import React from 'react';
-import { Box, CssBaseline, FormControl, GlobalStyles, InputLabel, MenuItem, Select, } from '@mui/material';
+import { Box, CssBaseline, FormControl, GlobalStyles, InputLabel, MenuItem, Select } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   sections: ReadonlyArray<{
@@ -13,6 +14,7 @@ interface HeaderProps {
   }>;
   title: string;
 }
+
 const months = [
   { value: 'January', label: 'Janeiro' },
   { value: 'February', label: 'Fevereiro' },
@@ -28,12 +30,15 @@ const months = [
   { value: 'December', label: 'Dezembro' }
 ];
 
-export default function Mounth(props: HeaderProps) {
+export default function Month(props: HeaderProps) {
   const { title } = props;
   const [selectedMonth, setSelectedMonth] = React.useState('');
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectedMonth(event.target.value as string);
+    const month = event.target.value as string;
+    setSelectedMonth(month);
+    navigate('/Dashboard');
   };
 
   return (
@@ -94,7 +99,7 @@ export default function Mounth(props: HeaderProps) {
         }}
       >
         <Typography sx={{ color: '#fff', fontSize: '2rem', padding: '30px' }}>
-          Seleciona o mês de controle das finanças!
+          Selecione o mês de controle das finanças!
         </Typography>
         <Box
           sx={{
@@ -104,8 +109,7 @@ export default function Mounth(props: HeaderProps) {
             boxShadow: 3,
           }}
         >
-
-<FormControl fullWidth>
+          <FormControl fullWidth>
             <InputLabel id="month-select-label">Escolha o mês</InputLabel>
             <Select
               labelId="month-select-label"

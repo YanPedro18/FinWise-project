@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import SignIn from "./Pages/auth/sign-in"
-import DashboardHome from "./Pages/app/DashboardHome"
 import SignUp from "./Pages/auth/sign-up"
 import Mounth from "./Pages/app/Mounth"
+import DashboardHome from "./Pages/app/Dashboard/DashboardHome"
 
 
 function Router() {
