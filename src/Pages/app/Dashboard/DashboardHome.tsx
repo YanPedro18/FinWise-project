@@ -19,7 +19,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Deposits from './Deposits';
-import Orders from './Orders';
+
 
 function Copyright(props: any) {
   return (
@@ -166,16 +166,19 @@ export default function DashboardHome() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
+                    color:"white",
+                    backgroundColor: '#454545',
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
                     height: 240,
                   }}
                 >
+                  <Deposits />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -191,10 +194,17 @@ export default function DashboardHome() {
                   <Deposits />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+               {/* Recent Deposits */}
+               <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Deposits />
                 </Paper>
               </Grid>
             </Grid>
