@@ -20,13 +20,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Deposits from './Deposits';
 
-
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit">
+        FinWise
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -136,10 +135,18 @@ export default function DashboardHome() {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-end',
+              justifyContent: 'space-between', // space between elements
               px: [1],
             }}
           >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <Typography variant="h5" color="#00C2FF" sx={{ fontWeight: 'bold' }}>
+                FinWise
+              </Typography>
+              <Typography variant="subtitle2" color="#00C2FF" sx={{ marginTop: -1 }}>
+                financial
+              </Typography>
+            </Box>
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
@@ -166,16 +173,27 @@ export default function DashboardHome() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Recent Deposits */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
-                    color:"white",
+                    color: "white",
                     backgroundColor: '#454545',
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
+                    height: 150,
+                  }}
+                >
+                  <Deposits />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 150,
                   }}
                 >
                   <Deposits />
@@ -188,20 +206,7 @@ export default function DashboardHome() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-               {/* Recent Deposits */}
-               <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
+                    height: 150,
                   }}
                 >
                   <Deposits />
