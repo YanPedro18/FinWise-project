@@ -1,21 +1,38 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, createBrowserRouter } from "react-router-dom"
 import SignIn from "./Pages/auth/sign-in"
 import SignUp from "./Pages/auth/sign-up"
 import Mounth from "./Pages/app/Mounth"
-import Userpage from "./Pages/app/Userpage"
 import DashboardHome from "./Pages/app/Dashboard/DashboardHome"
+import Userpage from "./Pages/app/userpage/Userpage"
+import { AppLayout } from "./Pages/_layouts/app"
+import Dashboard from "@mui/icons-material/Dashboard"
 
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [{ path: "/", element: <Dashboard /> }]
+  },
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [{ path: "/", element: <Userpage /> }]
+  },
+  {
+    path: '/Mounth',
+    element: <Mounth sections={[]} title={""} />,
 
-function Router() {
-  return (
-    <Routes>
-      <Route path="/" element={<Mounth sections={[]} title={""} />} > </Route>
-      <Route path="/Dashboard" element={<DashboardHome />} > </Route>
-      <Route path="/sign-in" element={<SignIn />} > </Route>
-      <Route path="/sign-up" element={<SignUp />} > </Route>
-      <Route path="/Userpage" element={<Userpage />} > </Route>
-    </Routes>
-  )
-}
+  },
+  {
+    path: '/sign-in',
+    element: <SignIn />,
 
-export default Router
+  },
+  {
+    path: '/sign-up',
+    element: <SignUp />,
+
+  },
+])
+
+      
