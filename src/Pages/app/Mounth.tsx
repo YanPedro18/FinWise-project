@@ -38,7 +38,7 @@ export default function Month(props: HeaderProps) {
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const month = event.target.value as string;
     setSelectedMonth(month);
-    navigate('/Dashboard');
+    navigate('/');
   };
 
   return (
