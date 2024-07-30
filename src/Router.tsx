@@ -15,10 +15,10 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
-    children: [{ path: "/", element: <Userpage /> }]
+    children: [{ path: "/Userpage", element: <Userpage /> }]
   },
   {
-    path: '/Mounth',
+    path: '/mounth',
     element: <Mounth sections={[]} title={""} />,
 
   },

@@ -1,26 +1,12 @@
 import { useState } from 'react';
-import {
-  Box,
-  Drawer as MuiDrawer,
-  IconButton,
-  List,
-  Toolbar,
-  Typography,
-  Divider,
-  Button,
-  AppBar as MuiAppBar,
-  AppBarProps,
-  ListItem,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
+import { Box, Drawer as MuiDrawer, IconButton, List, Toolbar, Typography, Divider, Button, AppBar as MuiAppBar, AppBarProps, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import { styled } from '@mui/material/styles';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -92,7 +78,7 @@ export function AppLayout() {
             <MenuIcon sx={{ color: 'black' }} />
           </IconButton>
           <Typography component="h1" variant="h6" color="#000000" noWrap sx={{ flexGrow: 1 }}>
-            Dashboard
+            
           </Typography>
           <IconButton>
             <AccountCircleIcon />
@@ -134,13 +120,13 @@ export function AppLayout() {
         </Toolbar>
         <Divider />
         <List component="nav">
-          <ListItem button>
+          <ListItem button component={Link} to="/">
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
-          <ListItem button>
+          <ListItem button component={Link} to="/userpage">
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
