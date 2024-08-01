@@ -22,43 +22,50 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { IconButton, Link } from '@mui/material';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit">
-        FinWise
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { ITransactionResponseProps } from '../../../interfaces/ITransactionsResponseProps';
+import { addTransaction, getTransactions } from '../../../services/transactionsService';
+import { Copyright } from '@mui/icons-material';
 
 const defaultTheme = createTheme();
 
 export default function DashboardHome() {
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [transactions, setTransactions] = React.useState([
-    { type: 'Entrada', summary: 'Desenvolvimento de site', date: '28/04/2024', value: 'R$ 10,000.00' },
-    { type: 'Saida', summary: 'Hamburger', date: '29/04/2024', value: 'R$ 80.00' },
-  ]);
+  const [transactions, setTransactions] = React.useState<ITransactionResponseProps[]>([]);
+  const [total, setTotal] = React.useState(0);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
+  React.useEffect(() => {
+    const fetchTransactions = async () => {
+      const data = await getTransactions();
+      setTransactions(data);
 
-  const handleEdit = (index: number) => {
-    console.log('Editar transação:', index);
-  };
+      const totalAmount = data.reduce((sum, transaction) =>
+        transaction.type === 'entrada' ? sum + transaction.amount : sum - transaction.amount,
+        0
+      );
+      setTotal(totalAmount);
+    };
 
-  const handleDelete = (index: number) => {
-    setTransactions(transactions.filter((_, i) => i !== index));
-  };
+    fetchTransactions();
+  }, []);
 
-  const filteredTransactions = transactions.filter((transaction) =>
-    transaction.summary.toLowerCase().includes(searchQuery.toLowerCase())
+  async function handleAddTransaction(type: string, amount: number, description: string) {
+    const newTransaction = {
+      type,
+      amount,
+      description,
+      date: new Date().toISOString(),
+    };
+
+    const transactionId = await addTransaction(newTransaction);
+
+    if (transactionId) {
+      setTransactions([...transactions, { id: transactionId, ...newTransaction }]);
+      setTotal(type === 'entrada' ? total + amount : total - amount);
+    }
+  }
+
+  const filteredTransactions = transactions.filter(transaction =>
+    transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -69,7 +76,13 @@ export default function DashboardHome() {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Box sx={{ border: '1px solid #000000', padding: '8px', borderRadius: '4px' }}>Janeiro</Box>
             <Box>
-              <Button variant="contained" color="primary" sx={{ mr: 1 }} startIcon={<AddIcon />}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mr: 1 }}
+                startIcon={<AddIcon />}
+                onClick={() => handleAddTransaction('entrada', 100, 'Nova entrada')}
+              >
                 Nova Transação
               </Button>
               <Button variant="contained" color="success" startIcon={<DownloadIcon />}>
@@ -79,16 +92,7 @@ export default function DashboardHome() {
           </Box>
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  color: '#FFF',
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 120,
-                  backgroundColor: '#333333',
-                }}
-              >
+              <Paper sx={{ color: '#FFF', p: 2, display: 'flex', flexDirection: 'column', height: 120, backgroundColor: '#333333' }}>
                 <Typography variant="h6" gutterBottom>
                   Entradas
                 </Typography>
@@ -96,16 +100,7 @@ export default function DashboardHome() {
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  color: '#FFF',
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 120,
-                  backgroundColor: '#333333',
-                }}
-              >
+              <Paper sx={{ color: '#FFF', p: 2, display: 'flex', flexDirection: 'column', height: 120, backgroundColor: '#333333' }}>
                 <Typography variant="h6" gutterBottom>
                   Saidas
                 </Typography>
@@ -113,20 +108,11 @@ export default function DashboardHome() {
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  color: '#FFF',
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 120,
-                  backgroundColor: '#333333',
-                }}
-              >
+              <Paper sx={{ color: '#FFF', p: 2, display: 'flex', flexDirection: 'column', height: 120, backgroundColor: '#333333' }}>
                 <Typography variant="h6" gutterBottom>
                   Total
                 </Typography>
-                <Typography variant="h4">$3,024.00</Typography>
+                <Typography variant="h4">${total.toFixed(2)}</Typography>
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -136,7 +122,7 @@ export default function DashboardHome() {
                   variant="outlined"
                   fullWidth
                   value={searchQuery}
-                  onChange={handleSearchChange}
+                  onChange={e => setSearchQuery(e.target.value)}
                   sx={{ mb: 2 }}
                   InputProps={{
                     startAdornment: (
@@ -157,24 +143,23 @@ export default function DashboardHome() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {filteredTransactions.map((transaction, index) => (
-                      <TableRow key={index}>
+                    {filteredTransactions.map(transaction => (
+                      <TableRow key={transaction.id}>
                         <TableCell>
-                          {transaction.type === 'Entrada' ? (
+                          {transaction.type === 'entrada' ? (
                             <ArrowDownwardIcon style={{ color: 'green' }} />
                           ) : (
                             <ArrowUpwardIcon style={{ color: 'red' }} />
-                          )}{' '}
-                          {transaction.type}
+                          )} {transaction.type}
                         </TableCell>
-                        <TableCell>{transaction.summary}</TableCell>
-                        <TableCell>{transaction.date}</TableCell>
-                        <TableCell>{transaction.value}</TableCell>
+                        <TableCell>{transaction.description}</TableCell>
+                        <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
+                        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
                         <TableCell>
-                          <IconButton onClick={() => handleEdit(index)}>
+                          <IconButton>
                             <EditIcon />
                           </IconButton>
-                          <IconButton onClick={() => handleDelete(index)}>
+                          <IconButton>
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
