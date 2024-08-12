@@ -21,7 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { IconButton, Link } from '@mui/material';
+import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem } from '@mui/material';
 import { ITransactionResponseProps } from '../../../interfaces/ITransactionsResponseProps';
 import { addTransaction, getTransactions } from '../../../services/transactionsService';
 import { Copyright } from '@mui/icons-material';
@@ -32,6 +32,13 @@ export default function DashboardHome() {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [transactions, setTransactions] = React.useState<ITransactionResponseProps[]>([]);
   const [total, setTotal] = React.useState(0);
+  const [open, setOpen] = React.useState(false);  // Dialog state
+  const [newTransaction, setNewTransaction] = React.useState({
+    type: 'entrada',
+    description: '',
+    date: new Date().toISOString().substring(0, 10), // Default to today's date
+    amount: 0,
+  });
 
   React.useEffect(() => {
     const fetchTransactions = async () => {
@@ -48,19 +55,29 @@ export default function DashboardHome() {
     fetchTransactions();
   }, []);
 
-  async function handleAddTransaction(type: string, amount: number, description: string) {
-    const newTransaction = {
-      type,
-      amount,
-      description,
-      date: new Date().toISOString(),
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewTransaction(prev => ({
+      ...prev,
+      [name]: name === 'amount' ? parseFloat(value) : value,
+    }));
+  };
+
+  async function handleAddTransaction() {
     const transactionId = await addTransaction(newTransaction);
 
     if (transactionId) {
       setTransactions([...transactions, { id: transactionId, ...newTransaction }]);
-      setTotal(type === 'entrada' ? total + amount : total - amount);
+      setTotal(newTransaction.type === 'entrada' ? total + newTransaction.amount : total - newTransaction.amount);
+      handleClose();
     }
   }
 
@@ -81,7 +98,7 @@ export default function DashboardHome() {
                 color="primary"
                 sx={{ mr: 1 }}
                 startIcon={<AddIcon />}
-                onClick={() => handleAddTransaction('entrada', 100, 'Nova entrada')}
+                onClick={handleClickOpen}
               >
                 Nova Transação
               </Button>
@@ -91,6 +108,7 @@ export default function DashboardHome() {
             </Box>
           </Box>
           <Grid container spacing={3} justifyContent="center">
+            {/* Display cards for Entradas, Saidas, and Total */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper sx={{ color: '#FFF', p: 2, display: 'flex', flexDirection: 'column', height: 120, backgroundColor: '#333333' }}>
                 <Typography variant="h6" gutterBottom>
@@ -112,9 +130,11 @@ export default function DashboardHome() {
                 <Typography variant="h6" gutterBottom>
                   Total
                 </Typography>
-                <Typography variant="h4">${total.toFixed(2)}</Typography>
+                <Typography variant="h4">${total}</Typography>
               </Paper>
             </Grid>
+
+            {/* Table and Search Field */}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <TextField
@@ -154,7 +174,7 @@ export default function DashboardHome() {
                         </TableCell>
                         <TableCell>{transaction.description}</TableCell>
                         <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
-                        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+                        <TableCell>${transaction.amount}</TableCell>
                         <TableCell>
                           <IconButton>
                             <EditIcon />
@@ -173,6 +193,56 @@ export default function DashboardHome() {
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Box>
+
+      {/* Dialog for Adding a New Transaction */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle sx={{ textAlign: 'center' }}>Nova Transação</DialogTitle>
+        <DialogContent>
+          <TextField
+            select
+            margin="dense"
+            label="Tipo"
+            name="type"
+            fullWidth
+            value={newTransaction.type}
+            onChange={handleInputChange}
+          >
+            <MenuItem value="entrada">Entrada</MenuItem>
+            <MenuItem value="saida">Saída</MenuItem>
+          </TextField>
+          <TextField
+            margin="dense"
+            label="Resumo"
+            name="description"
+            fullWidth
+            value={newTransaction.description}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="dense"
+            label="Data"
+            type="date"
+            name="date"
+            fullWidth
+            value={newTransaction.date}
+            onChange={handleInputChange}
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            margin="dense"
+            label="Valor"
+            name="amount"
+            type="number"
+            fullWidth
+            value={newTransaction.amount}
+            onChange={handleInputChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">Cancelar</Button>
+          <Button onClick={handleAddTransaction} color="primary">Adicionar</Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 }
