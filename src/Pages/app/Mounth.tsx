@@ -16,18 +16,18 @@ interface HeaderProps {
 }
 
 const months = [
-  { value: 'January', label: 'Janeiro' },
-  { value: 'February', label: 'Fevereiro' },
-  { value: 'March', label: 'Março' },
-  { value: 'April', label: 'Abril' },
-  { value: 'May', label: 'Maio' },
-  { value: 'June', label: 'Junho' },
-  { value: 'July', label: 'Julho' },
-  { value: 'August', label: 'Agosto' },
-  { value: 'September', label: 'Setembro' },
-  { value: 'October', label: 'Outubro' },
-  { value: 'November', label: 'Novembro' },
-  { value: 'December', label: 'Dezembro' }
+  { value: 'Janeiro', label: 'Janeiro' },
+  { value: 'Fevereiro', label: 'Fevereiro' },
+  { value: 'Março', label: 'Março' },
+  { value: 'Abril', label: 'Abril' },
+  { value: 'Maio', label: 'Maio' },
+  { value: 'Junho', label: 'Junho' },
+  { value: 'Julho', label: 'Julho' },
+  { value: 'Agosto', label: 'Agosto' },
+  { value: 'Setembro', label: 'Setembro' },
+  { value: 'Outubro', label: 'Outubro' },
+  { value: 'Novembro', label: 'Novembro' },
+  { value: 'Dezembro', label: 'Dezembro' }
 ];
 
 export default function Month(props: HeaderProps) {
@@ -38,7 +38,7 @@ export default function Month(props: HeaderProps) {
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const month = event.target.value as string;
     setSelectedMonth(month);
-    navigate('/');
+    navigate('/', { state: { selectedMonth: month } });
   };
 
   return (

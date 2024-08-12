@@ -25,10 +25,12 @@ import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem
 import { ITransactionResponseProps } from '../../../interfaces/ITransactionsResponseProps';
 import { addTransaction, getTransactions } from '../../../services/transactionsService';
 import { Copyright } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
 
 const defaultTheme = createTheme();
-
 export default function DashboardHome() {
+  const location = useLocation();
+  const selectedMonth = location.state?.selectedMonth || 'January'; // Corrigido o nome da variável
   const [searchQuery, setSearchQuery] = React.useState('');
   const [transactions, setTransactions] = React.useState<ITransactionResponseProps[]>([]);
   const [total, setTotal] = React.useState(0);
@@ -81,9 +83,14 @@ export default function DashboardHome() {
     }
   }
 
-  const filteredTransactions = transactions.filter(transaction =>
-    transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredTransactions = transactions
+    .filter(transaction => {
+      const transactionDate = new Date(transaction.date);
+      return transactionDate.toLocaleString('default', { month: 'long' }) === selectedMonth;
+    })
+    .filter(transaction =>
+      transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -91,7 +98,9 @@ export default function DashboardHome() {
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Box sx={{ border: '1px solid #000000', padding: '8px', borderRadius: '4px' }}>Janeiro</Box>
+            <Box sx={{ border: '1px solid #000000', padding: '8px', borderRadius: '4px' }}>
+              {selectedMonth} {/* Exibe o mês selecionado */}
+            </Box>
             <Box>
               <Button
                 variant="contained"
